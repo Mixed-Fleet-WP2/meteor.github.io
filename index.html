@@ -528,7 +528,7 @@
         <h2 class="section-title">Bridging Design and Execution</h2>
         <div style="max-width: 900px; margin: 0 auto; text-align: center;">
             <p style="font-size: 1.2em; color: #a0a0a0; line-height: 1.8; margin-bottom: 40px;">
-                MAESTRO enables domain experts to model complex multi-robot missions at a high level of abstraction 
+                METEOR enables domain experts to model complex multi-robot missions at a high level of abstraction 
                 using SysML v2 and automatically transforms these models into executable systems with MQTT-based 
                 orchestration and Gazebo simulation.
             </p>
@@ -544,16 +544,16 @@
                 <div class="stat-label">Transformation Stages</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">100%</div>
+                <div class="stat-number">Full</div>
                 <div class="stat-label">Model Traceability</div>
             </div>
         </div>
 
         <p class="authors">
-            Hamza Haoui, Bianca Wiesmayr, David Hästbacka, Kari Systä
+            Hamza Haoui, Elmeri Pohjois-Koivisto, David Hästbacka, Kari Systä
         </p>
         <p class="affiliation">
-            Tampere University | Johannes Kepler University Linz
+            TASE - Software Engineering Research Center | Tampere University
         </p>
     </section>
 
@@ -609,10 +609,8 @@
             <div class="video-wrapper">
                 <div class="video-container">
                     <!-- Replace this placeholder with your actual video embed -->
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1133052115?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="METEOR - Model-driven Execution Tool for hEterogeneous rObot oRchestration"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-                    <div class="video-placeholder">
-                        
-                    </div>
+                     <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1133052115?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="METEOR - Model-driven Execution Tool for hEterogeneous rObot oRchestration"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                    
                 </div>
             </div>
         </div>
@@ -623,18 +621,354 @@
         <p style="text-align: center; color: #a0a0a0; font-size: 1.1em; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
             Three-stage transformation pipeline: Parsing → Code Generation → Runtime Execution
         </p>
-        <img src="Sys2Sim.png" alt="Architecture Diagram" class="architecture-img">
+        
+        <!-- Interactive Architecture Diagram -->
+        <div style="max-width: 1200px; margin: 60px auto; position: relative;">
+            
+            <!-- Top Row: Library and Parsing -->
+            <div style="display: grid; grid-template-columns: 250px 1fr 300px; gap: 30px; margin-bottom: 40px;">
+                
+                <!-- SysML v2 Library -->
+                <div class="arch-box arch-library">
+                    <h3 style="margin-bottom: 15px; font-size: 1.2em;">SysML v2 Library</h3>
+                    <ul style="list-style: none; padding: 0; font-size: 0.9em; color: #333;">
+                        <li>• Structural Models</li>
+                        <li>• Behavioral Models</li>
+                        <li>• Abstract Requirements</li>
+                        <li>• Verification cases</li>
+                        <li>• Modeling Patterns</li>
+                    </ul>
+                </div>
+
+                <!-- Parsing Stage -->
+                <div class="arch-box arch-parsing" style="position: relative;">
+                    <h3 style="margin-bottom: 20px; text-align: center; font-size: 1.2em;">Parsing Stage</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div class="arch-input-box">Graphical SysML v2</div>
+                        <div class="arch-arrow-down">↓</div>
+                        <div class="arch-sub-box">SysML v2 API Adapter</div>
+                        
+                        <div style="margin: 10px 0;"></div>
+                        
+                        <div class="arch-input-box">Textual SysML v2</div>
+                        <div class="arch-arrow-down">↓</div>
+                        <div class="arch-sub-box">Custom ANTLR Grammar Parser</div>
+                    </div>
+                </div>
+
+                <!-- Structured Mission -->
+                <div class="arch-box arch-mission">
+                    <h3 style="margin-bottom: 15px; font-size: 1.2em; text-align: center;">Structured Mission Representation</h3>
+                    <div style="font-size: 0.85em; color: #333; font-family: monospace;">
+                        <div>flow: [actions...]</div>
+                        <div>nested_actions: {...}</div>
+                        <div>actors: [parts...]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrows from Library -->
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" class="connection-svg">
+                <defs>
+                    <marker id="arrowhead-arch" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#667eea" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <!-- Middle Row: Code Generation -->
+            <div style="margin: 60px 0;">
+                <div class="arch-box arch-codegen">
+                    <h3 style="margin-bottom: 25px; text-align: center; font-size: 1.3em; color: #fff;">Code Generation Engine</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div class="arch-gen-box arch-gen-1">
+                            <strong>Service Mapping</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Service Execution → Actor</div>
+                        </div>
+                        <div class="arch-gen-box arch-gen-2">
+                            <strong>Input Resolution</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">reference and values resolver</div>
+                        </div>
+                        <div class="arch-gen-box arch-gen-3">
+                            <strong>Flow Control Logic</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Sequential execution and decision nodes</div>
+                        </div>
+                        <div class="arch-gen-box arch-gen-4">
+                            <strong>MQTT Comm Generator</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Topics structure and Messages serialization</div>
+                        </div>
+                        <div class="arch-gen-box arch-gen-5">
+                            <strong>State Management</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Closures and indexing</div>
+                        </div>
+                        <div class="arch-gen-box arch-gen-6">
+                            <strong>Callback Handlers</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">massage parser and checker</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Runtime Execution -->
+            <div style="margin: 60px 0;">
+                <div class="arch-box arch-runtime">
+                    <h3 style="margin-bottom: 25px; text-align: center; font-size: 1.3em;color:#302b63">Runtime Execution Environment</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div class="arch-runtime-box arch-runtime-1">
+                            <strong>CLI Driver</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Validate input</div>
+                        </div>
+                        <div class="arch-runtime-box arch-runtime-2">
+                            <strong>Orchestrator Runtime</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Execute flow sequence<br>Publish MQTT commands<br>Handle responses</div>
+                        </div>
+                        <div class="arch-runtime-box arch-runtime-3">
+                            <strong>MQTT Client</strong>
+                            <div style="font-size: 0.85em; margin-top: 5px;">Connect to broker<br>Subscribe to topics<br>QoS management</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MQTT Communication Bus -->
+            <div style="margin: 60px 0;">
+                <div class="arch-box arch-mqtt">
+                    <h3 style="margin-bottom: 20px; text-align: center; font-size: 1.3em; color: #fff;">MQTT Communication Bus</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div class="arch-topic-box arch-topic-1">
+                            <div style="font-family: monospace; font-size: 0.85em;">/robot/&lt;actor&gt;/&lt;service&gt;</div>
+                            <div style="font-size: 0.8em; margin-top: 5px;">topic</div>
+                        </div>
+                        <div class="arch-topic-box arch-topic-2">
+                            <div style="font-family: monospace; font-size: 0.85em;">/robot/&lt;actor&gt;/&lt;service&gt;</div>
+                            <div style="font-size: 0.8em; margin-top: 5px;">topic</div>
+                        </div>
+                        <div class="arch-topic-box arch-topic-3">
+                            <div style="font-family: monospace; font-size: 0.85em;">/robot/&lt;actor&gt;/&lt;service&gt;</div>
+                            <div style="font-size: 0.8em; margin-top: 5px;">topic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robots Services -->
+            <div style="margin: 60px 0;">
+                <div class="arch-box arch-robots">
+                    <h3 style="margin-bottom: 15px; text-align: center; font-size: 1.3em; color: #fff;">Robots Services and Simulation Environment</h3>
+                    <p style="text-align: center; color: rgba(255,255,255,0.8); font-size: 0.95em;">Gazebo Simulation • Robot Models • Service Implementations • MQTT Bridges</p>
+                </div>
+            </div>
+
+        </div>
     </section>
+
+    <style>
+        .arch-box {
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .arch-library {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            border-color: #d68910;
+            color: #fff;
+        }
+
+        .arch-parsing {
+            background: rgba(200, 220, 240, 0.95);
+            border-color: #7ba4c9;
+        }
+
+        .arch-mission {
+            background: rgba(230, 230, 230, 0.95);
+            border-color: #a0a0a0;
+        }
+
+        .arch-codegen {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            border-color: #7d3c98;
+        }
+
+        .arch-runtime {
+            background: rgba(200, 220, 240, 0.95);
+            border-color: #7ba4c9;
+        }
+
+        .arch-mqtt {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            border-color: #7e22ce;
+        }
+
+        .arch-robots {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-color: #047857;
+        }
+
+        .arch-input-box {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .arch-sub-box {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .arch-gen-box {
+            background: white;
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .arch-gen-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .arch-gen-1 { animation: fadeIn 0.6s ease-out 0.1s both; }
+        .arch-gen-2 { animation: fadeIn 0.6s ease-out 0.2s both; }
+        .arch-gen-3 { animation: fadeIn 0.6s ease-out 0.3s both; }
+        .arch-gen-4 { animation: fadeIn 0.6s ease-out 0.4s both; }
+        .arch-gen-5 { animation: fadeIn 0.6s ease-out 0.5s both; }
+        .arch-gen-6 { animation: fadeIn 0.6s ease-out 0.6s both; }
+
+        .arch-runtime-box {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f0 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            border: 2px solid #5a9cb8;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .arch-runtime-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(90, 156, 184, 0.3);
+            border-color: #3d7a94;
+        }
+
+        .arch-runtime-1 { animation: fadeIn 0.6s ease-out 0.1s both; }
+        .arch-runtime-2 { animation: fadeIn 0.6s ease-out 0.3s both; }
+        .arch-runtime-3 { animation: fadeIn 0.6s ease-out 0.5s both; }
+
+        .arch-topic-box {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #a855f7;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .arch-topic-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+            border-color: #7e22ce;
+            background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%);
+        }
+
+        .arch-topic-1 { animation: slideInBottom 0.6s ease-out 0.1s both; }
+        .arch-topic-2 { animation: slideInBottom 0.6s ease-out 0.2s both; }
+        .arch-topic-3 { animation: slideInBottom 0.6s ease-out 0.3s both; }
+
+        .arch-arrow-down {
+            text-align: center;
+            font-size: 1.5em;
+            color: #667eea;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .arch-box {
+                padding: 15px;
+            }
+            
+            .section > div > div {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
 
     <section class="section" id="resources">
         <h2 class="section-title">Resources</h2>
         
         <div class="resources-grid">
             <div class="resource-card">
-                <div class="resource-icon">🔧</div>
-                <h3>MAESTRO Framework</h3>
+                <div class="resource-icon">☄️</div>
+                <h3>METEOR Framework</h3>
                 <p>Complete implementation with ANTLR parser, code generation engine, and MQTT orchestrator</p>
-                <a href="https://github.com/your-username/maestro-framework" class="btn-primary" target="_blank">
+                <a href="https://github.com/your-username/meteor-framework" class="btn-primary" target="_blank">
                     View on GitHub
                 </a>
             </div>
@@ -665,14 +999,12 @@
         <div class="publications">
             <div class="publication-item">
                 <div class="publication-title">
-                    Modeling Collaborative Task Workflows with SysML v2: A Heterogeneous Robotics Systems Use Case
-                </div>
+                    Modeling service choreographies and collaborative tasks for autonomous mixed-fleet system                </div>
                 <div class="publication-authors">
-                    H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
+                    B. Wiesmayr, A. Zoitl, and D. Hästbacka
                 </div>
                 <div class="publication-venue">
-                    ACM/IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS), 2024
-                </div>
+                   ACM/IEEE 27th International Conference on Model Driven Engineering Languages and Systems, MODELS Companion ’24, (New York, NY, USA), p. 234–244, Association for Computing Machinery, 2024
             </div>
 
             <div class="publication-item">
@@ -683,16 +1015,16 @@
                     H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
                 </div>
                 <div class="publication-venue">
-                    Software Architecture and Modeling (SAM), 2025
+                    Software Architecture and Modeling (SAM) co-located with MODELS 2025 (Accepted and presented)
                 </div>
             </div>
 
             <div class="publication-item">
                 <div class="publication-title">
-                    MAESTRO: SysML v2 to Gazebo Transformation Framework for Heterogeneous Multi-Robot Systems
+                    METEOR: Model-driven Execution Tool for Heterogeneous Robot Orchestration
                 </div>
                 <div class="publication-authors">
-                    H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
+                    H. Haoui, E. Pohjois-Koivisto, D. Hästbacka, K. Systä
                 </div>
                 <div class="publication-venue">
                     International Conference on Robotics and Automation (ICRCA), 2025 (Submitted)
