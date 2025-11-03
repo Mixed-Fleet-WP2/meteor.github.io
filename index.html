@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METEOR | Model-driven Execution Tool for hEterogeneous rObot oRchestration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(240, 147, 251, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 12, 41, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 40px 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4.5em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            letter-spacing: -2px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 16px 40px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05em;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px;
+        }
+
+        .section-title {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 60px;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #a0a0a0;
+            line-height: 1.7;
+        }
+
+        .video-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 20px;
+            padding: 60px;
+            margin: 60px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .video-placeholder-content {
+            text-align: center;
+        }
+
+        .video-placeholder-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .resource-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 16px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+
+        .resource-icon {
+            font-size: 4em;
+            margin-bottom: 25px;
+        }
+
+        .resource-card h3 {
+            font-size: 1.8em;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .resource-card p {
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .architecture-img {
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px auto;
+            display: block;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 1.1em;
+        }
+
+        .authors {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 1.1em;
+            margin-top: 30px;
+        }
+
+        .affiliation {
+            text-align: center;
+            color: #707070;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .tag {
+            padding: 8px 20px;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        .publications {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .publication-item {
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+
+        .publication-title {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .publication-authors {
+            color: #a0a0a0;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .publication-venue {
+            color: #667eea;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 40px;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+            margin-top: 100px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+        }
+
+        footer p {
+            color: #707070;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-section {
+                padding: 30px 20px;
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo">METEOR</div>
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#resources">Resources</a>
+                <a href="#publications">Publications</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="gradient-text">METEOR</span>
+            </h1>
+            <p class="hero-subtitle">
+                Model-driven Execution Tool for hEterogeneous rObot oRchestration
+            </p>
+            <p style="font-size: 1.1em; color: #a0a0a0; margin-bottom: 40px;">
+                Transform SysML v2 models into executable heterogeneous multi-robot systems
+            </p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn-primary">Watch Demo</a>
+                <a href="#resources" class="btn-secondary">View on GitHub</a>
+            </div>
+            <div class="tags">
+                <span class="tag">SysML v2</span>
+                <span class="tag">MBSE</span>
+                <span class="tag">Heterogeneous Robotics</span>
+                <span class="tag">MQTT</span>
+                <span class="tag">Gazebo</span>
+                <span class="tag">Industry 4.0</span>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="section" id="overview">
+        <h2 class="section-title">Bridging Design and Execution</h2>
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <p style="font-size: 1.2em; color: #a0a0a0; line-height: 1.8; margin-bottom: 40px;">
+                MAESTRO enables domain experts to model complex multi-robot missions at a high level of abstraction 
+                using SysML v2 and automatically transforms these models into executable systems with MQTT-based 
+                orchestration and Gazebo simulation.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Modeling Notations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Transformation Stages</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Model Traceability</div>
+            </div>
+        </div>
+
+        <p class="authors">
+            Hamza Haoui, Bianca Wiesmayr, David Hästbacka, Kari Systä
+        </p>
+        <p class="affiliation">
+            Tampere University | Johannes Kepler University Linz
+        </p>
+    </section>
+
+    <section class="section" id="features">
+        <h2 class="section-title">Key Capabilities</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Service-Oriented Architecture</h3>
+                <p>Platform-independent service choreographies with flexible actor-service mapping and dynamic task allocation</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Dual Modeling Support</h3>
+                <p>Support for both graphical SysML v2 models (via API) and textual notations (via custom ANTLR grammar)</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Automated Code Generation</h3>
+                <p>Python orchestration code with MQTT communication, state management, and callback handlers</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Heterogeneity Support</h3>
+                <p>Seamless coordination of diverse robot types (aerial, ground, manipulator) with different capabilities</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Complete Traceability</h3>
+                <p>From high-level requirements to low-level execution logs with integrated verification mechanisms</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Gazebo Integration</h3>
+                <p>Physics-based simulation for validation before physical deployment with MQTT bridges</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="demo">
+        <div class="video-section">
+            <h2 class="section-title">See It In Action</h2>
+            <p style="text-align: center; color: #a0a0a0; font-size: 1.1em; margin-bottom: 40px;">
+                Warehouse logistics scenario: Drone scans for empty racks, forklift places pallets
+            </p>
+            
+            <div class="video-wrapper">
+                <div class="video-container">
+                    <!-- Replace this placeholder with your actual video embed -->
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1133052115?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="METEOR - Model-driven Execution Tool for hEterogeneous rObot oRchestration"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                    <div class="video-placeholder">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Architecture</h2>
+        <p style="text-align: center; color: #a0a0a0; font-size: 1.1em; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Three-stage transformation pipeline: Parsing → Code Generation → Runtime Execution
+        </p>
+        <img src="Sys2Sim.png" alt="Architecture Diagram" class="architecture-img">
+    </section>
+
+    <section class="section" id="resources">
+        <h2 class="section-title">Resources</h2>
+        
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">🔧</div>
+                <h3>MAESTRO Framework</h3>
+                <p>Complete implementation with ANTLR parser, code generation engine, and MQTT orchestrator</p>
+                <a href="https://github.com/your-username/maestro-framework" class="btn-primary" target="_blank">
+                    View on GitHub
+                </a>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-icon">📚</div>
+                <h3>SysML v2 Library</h3>
+                <p>Reusable modeling patterns, structural elements, behavioral specifications, and verification cases</p>
+                <a href="https://github.com/Haoui-Hamza/SysML-v2-mixed-fleet-scenario" class="btn-primary" target="_blank">
+                    Explore Library
+                </a>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-icon">📄</div>
+                <h3>Research Paper</h3>
+                <p>Full methodology, case study results, and evaluation submitted to ICRCA 2025</p>
+                <a href="#" class="btn-primary">
+                    Read Paper
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="publications">
+        <h2 class="section-title">Publications</h2>
+        
+        <div class="publications">
+            <div class="publication-item">
+                <div class="publication-title">
+                    Modeling Collaborative Task Workflows with SysML v2: A Heterogeneous Robotics Systems Use Case
+                </div>
+                <div class="publication-authors">
+                    H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
+                </div>
+                <div class="publication-venue">
+                    ACM/IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS), 2024
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">
+                    Service-oriented Modeling of Mixed-Fleet Systems in SysML v2 in a Harbor Logistics Scenario
+                </div>
+                <div class="publication-authors">
+                    H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
+                </div>
+                <div class="publication-venue">
+                    Software Architecture and Modeling (SAM), 2025
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">
+                    MAESTRO: SysML v2 to Gazebo Transformation Framework for Heterogeneous Multi-Robot Systems
+                </div>
+                <div class="publication-authors">
+                    H. Haoui, B. Wiesmayr, D. Hästbacka, K. Systä
+                </div>
+                <div class="publication-venue">
+                    International Conference on Robotics and Automation (ICRCA), 2025 (Submitted)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 1.1em; color: #a0a0a0; margin-bottom: 15px;">
+            <strong>Contact:</strong> hamza.haoui@tuni.fi
+        </p>
+        <p>Supported by the Mixed Fleet project funded by Business Finland</p>
+        <p style="margin-top: 20px; font-size: 0.9em;">
+            © 2025 Tampere University. All rights reserved.
+        </p>
+    </footer>
+</body>
+</html>
